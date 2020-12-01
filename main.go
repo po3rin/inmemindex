@@ -1,40 +1,55 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
+)
 
-type dic struct {
-	entries []interface{}
+// docid index
+var postingsNode struct {
+	next *postingsNode
+	vals []int // doc id list
 }
 
-func (d *dic) getOrCreate(token string) interface{} {
-	return nil
+type term struct {
+	id  int
+	val string
 }
 
-func (d *dic) sort() {
-}
-
-type postingList struct{}
-
-func (p *postingList) add() {
-}
+type terms []term
 
 func main() {
-	var pos int
-	dic := &dic{}
-	pl := &postingList{}
-
-	tokens := []string{}
-	for _, t := range tokens {
-		e := dic.getOrCreate(t)
-		_ = e
-		pl.add()
-		pos++
+	datadir := "testdata"
+	files, err := ioutil.ReadDir(datadir)
+	if err != nil {
+		panic(err)
 	}
 
-	dic.sort()
+	ht := NewHashTable()
 
-	for _, e := range dic.entries {
-		_ = e
-		fmt.Println("write")
+	for i, file := range files {
+		if file.IsDir() {
+			continue
+		}
+		b, err := ioutil.ReadFile(filepath.Join(datadir, file.Name()))
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
+		tokens := strings.Split(string(b), " ")
+		for _, t := range tokens {
+			e, ok := ht.Get(t)
+			if !ok {
+
+			}
+			pn := postingsNode{
+				id:  i,
+				val: t,
+			}
+		}
 	}
 }

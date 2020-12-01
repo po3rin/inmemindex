@@ -1,0 +1,4 @@
+github.com/dorin131/go-data-structures v0.0.0-20200112181556-cfb304c8c6e8 h1:6R6NUXFvnEZUNIH9AZfkGt9tj5VsSf1i5KZcF5ah/64=
+github.com/dorin131/go-data-structures v0.0.0-20200112181556-cfb304c8c6e8/go.mod h1:OYBtqjPt2gqsBli4UeB+4P74Wyf4YKEV4IwgZOgjb9g=
+github.com/timtadh/data-structures v0.5.3 h1:F2tEjoG9qWIyUjbvXVgJqEOGJPMIiYn7U5W5mE+i/vQ=
+github.com/timtadh/data-structures v0.5.3/go.mod h1:9R4XODhJ8JdWFEI8P/HJKqxuJctfBQw6fDibMQny2oU=
