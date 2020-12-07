@@ -9,19 +9,10 @@ import (
 	"strings"
 )
 
-const limit = 16
-
 var re = regexp.MustCompile("[^a-zA-Z 0-9]+")
 
 func clean(document string) string {
 	return re.ReplaceAllString(strings.ToLower(document), "")
-}
-
-func min(i, j int) int {
-	if i > j {
-		return i
-	}
-	return j
 }
 
 // schema-independent index
@@ -38,7 +29,7 @@ func (p *postings) put(pos int) {
 
 	if cap(p.ps) == len(p.ps) {
 		p.next = &postings{
-			ps: make([]int, 0, min(limit, 8)),
+			ps: make([]int, 0, 4),
 		}
 		p.next.put(pos)
 	}
