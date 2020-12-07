@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+const limit = 32
+
 var re = regexp.MustCompile("[^a-zA-Z 0-9]+")
 
 func clean(document string) string {
@@ -21,18 +23,33 @@ type postings struct {
 	next *postings
 }
 
-func (p *postings) put(pos int) {
+func min(i, j int) int {
+	if i >= j {
+		return j
+	}
+	return i
+}
+
+func max(i, j int) int {
+	if i >= j {
+		return i
+	}
+	return j
+}
+
+func (p *postings) put(pos int, workcnt int) {
 	if p.next != nil {
-		p.next.put(pos)
+		p.next.put(pos, workcnt+1)
 		return
 	}
 
-	if cap(p.ps) == len(p.ps) {
+	if cap(p.ps) <= len(p.ps) {
 		p.next = &postings{
-			ps: make([]int, 0, 4),
+			ps: make([]int, 0, min(limit, max(2, workcnt*2))),
 		}
-		p.next.put(pos)
+		p.next.put(pos, workcnt+1)
 	}
+
 	p.ps = append(p.ps, pos)
 }
 
@@ -109,7 +126,7 @@ func main() {
 			}
 			dict[t.term] = e
 		}
-		e.put(t.pos)
+		e.put(t.pos, 1)
 	}
 
 	for t, e := range dict {
